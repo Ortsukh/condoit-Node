@@ -107,7 +107,6 @@ class UserService {
     }
 
     async updateSetting(bio, image, password, username, refreshToken) {
-        console.log(username);
         if (!refreshToken) {
             throw ApiError.UnauthorizedError();
         }
@@ -123,7 +122,6 @@ class UserService {
             _id: userId
         })
         // console.log(condidateName.name !== user.name);
-        console.log(user.name + '91');
         if (condidateName && condidateName.name !== user.name) {
             throw ApiError.BadRequest(`Пользователь с именем ${username} уже существует`)
         }
@@ -140,7 +138,9 @@ class UserService {
         await ArticleModel.updateMany({
             "author.username": user.name
         }, {
-            "author.username": username
+            "author.username": username,
+            "author.bio": bio,
+            "author.image": image,
         })
         const newUser = await UserModel.findOne({
             _id: userId
