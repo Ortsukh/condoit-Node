@@ -5,13 +5,16 @@ const ApiError = require("../exceptions/api-error");
 
 class ProfileService {
   async getProfile(name, token) {
+      let isFollow = false
+    const userAuthor = await UserModel.findOne({ name });
+
+      if(token){
     const userData = await TokenModel.findOne({ refreshToken: token });
     const userId = userData.user.toString();
     const user = await UserModel.findOne({ _id: userId });
-    const userAuthor = await UserModel.findOne({ name });
 
-    const isFollow = user.following.indexOf(name) == -1 ? false : true;
-
+    isFollow = user.following.indexOf(name) == -1 ? false : true;
+      }
     const profileData = {
       bio: userAuthor.bio,
       following: isFollow,
