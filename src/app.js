@@ -14,17 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-// const MongoStore = require('connect-mongo')(express)
-// app.use(session({
-// secret: SESSION_KEY,
-// key:"sid",
-// cookie:{
-//   "path":"/",
-//   "httpOnly":true,
-//   "maxAge":null,
-//   store:new MongoStore
-// }
-// }))
+
 const feHost = 
 app.use(cors({
   credentials:true,
