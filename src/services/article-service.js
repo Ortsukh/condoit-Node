@@ -101,7 +101,13 @@ class ArticleService {
         }
       });
     } else {
-      articles = await ArticleModel.find();
+     
+      if (swither == "tag") {
+        articles = await ArticleModel.find({ tagList: { $in: [query] } });
+      }else{
+        articles = await ArticleModel.find();
+
+      }
     }
    
     return articles.reverse();
