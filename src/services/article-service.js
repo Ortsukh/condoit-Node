@@ -13,6 +13,7 @@ class ArticleService {
     const author = {
       bio: user.bio,
       following: user.following,
+      followed:false,
       image: user.image,
       username: user.name,
     };
@@ -28,12 +29,12 @@ class ArticleService {
     return { article };
   }
 
-  async getById(slug) {
+  async getById(slug, token) {
     const article = await ArticleModel.findOne({ slug });
     if (!article) {
       throw ApiError.BadRequest("Данная статья не найдена");
     }
-
+    
     return article;
   }
   async getYourFeedArticles(token) {
@@ -41,12 +42,12 @@ class ArticleService {
     const userId = userData.user.toString();
     const user = await UserModel.findOne({ _id: userId });
     const followingArr = user.following;
-    console.log(followingArr);
+    
     const resultArr = await ArticleModel.find({
       "author.username": { $in: followingArr },
     });
 
-    console.log(resultArr);
+   
 
     return { articles: resultArr };
   }
@@ -102,7 +103,7 @@ class ArticleService {
     } else {
       articles = await ArticleModel.find();
     }
-    console.log(articles);
+   
     return articles.reverse();
   }
 
