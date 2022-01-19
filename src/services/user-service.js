@@ -125,8 +125,11 @@ class UserService {
         if (condidateName && condidateName.name !== user.name) {
             throw ApiError.BadRequest(`Пользователь с именем ${username} уже существует`)
         }
-        if (password.lenght == 0) password = user.password;
-        else password = await bcrypt.hash(password, 3);
+        
+        if (password == '') {password = user.password;
+        }else {password = await bcrypt.hash(password, 3)};
+        
+        
         await UserModel.updateOne({
             _id: userId
         }, {

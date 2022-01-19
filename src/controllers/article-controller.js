@@ -20,8 +20,10 @@ class ArticleController {
 
   async getById(req, res, next) {
     try {
+      const token = req.cookies.refreshToken;
+
       const slug = req.params.slug;
-      const article = await articleService.getById(slug);
+      const article = await articleService.getById(slug, token);
       return res.json({ article: article });
     } catch (e) {
       next(e);
