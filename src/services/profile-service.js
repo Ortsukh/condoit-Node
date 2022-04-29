@@ -40,6 +40,7 @@ class ProfileService {
         following: followArr,
       }
     );
+    
     const profileData = {
       bio: userAuthor.bio,
       following: true,
